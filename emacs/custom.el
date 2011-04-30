@@ -44,20 +44,22 @@ is a comment, uncomment."
 (setq vc-follow-symlinks t)
 
 ;; Full screen mode, set it by default (F11)
-(defun switch-full-screen ()
-  (interactive)
-  (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
-  	    		 '(2 "_NET_WM_STATE_MAXIMIZED_VERT" 0))
-  (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
-  	    		 '(2 "_NET_WM_STATE_MAXIMIZED_HORZ" 0)))
-(global-set-key [f11] 'switch-full-screen)
-(run-with-idle-timer 0.01 nil 'switch-full-screen)
+;; (defun switch-full-screen ()
+;;   (interactive)
+;;   (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
+;;   	    		 '(2 "_NET_WM_STATE_MAXIMIZED_VERT" 0))
+;;   (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
+;;   	    		 '(2 "_NET_WM_STATE_MAXIMIZED_HORZ" 0)))
+;; (global-set-key [f11] 'switch-full-screen)
+;; (run-with-idle-timer 0.01 nil 'switch-full-screen)
 
 ;; Enable linenumering
 (global-linum-mode 1)
 
 ;; Switch color theme
+(require 'color-theme)
 (color-theme-zenburn)
+
 
 ;; Turn off visible-bell
 (setq visible-bell nil)
@@ -106,10 +108,10 @@ is a comment, uncomment."
 (remove-hook 'espresso-mode-hook 'esk-paredit-nonlisp)
 
 (custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
+  ;; custom-set-variables was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
  '(blink-cursor-mode nil)
  '(menu-bar-mode t)
  '(show-paren-mode t))
@@ -119,7 +121,59 @@ is a comment, uncomment."
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#3f3f3f" :foreground "#dcdccc" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 100 :width normal :foundry "unknown" :family "DejaVu Sans Mono")))))
-
+ '(default ((t (:inherit nil :stipple nil :background "#3f3f3f" :foreground "#dcdccc" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width normal :foundry "unknown" :family "Inconsolata"))))
+ '(custom-comment ((t (:inherit font-lock-doc :foreground "#6e8b3d"))))
+ '(font-lock-comment ((t (:inherit zenburn-green :foreground "gray41")))))
 
 (add-hook 'html-mode 'turn-off-auto-fill)
+(add-hook 'latex-mode-hook (lambda ()
+                             (setq tex-main-file " /home/seba/Desktop/aghdpl/praca.tex")))
+;; (add-hook 'latex-mode-hook)
+;; (global-set-key (kbd "<f5>") (shell-command "pdflatex /home/seba/Desktop/aghdpl/praca.tex"))
+;; (add-hook 'flyspell-mode-hook
+;;  (lambda () (define-key flyspell-mode-map (kbd "C-x p") 'flyspell-correct-word-before-point)))
+
+;; (add-hook 'latex-mode-hook
+;;           (lambda () (define-key latex-mode-map (kbd "C-c C-c") (shell-command "touch ~/.test2"))))
+
+;; (add-hook 'latex-mode-hook
+;;           (lambda () (define-key latex-mode-map (kbd "C-c C-c") (shell-command "touch ~/.test2"))))
+
+;; (defun my-latex (action)
+;;   (interactive)
+;;   (if (buffer-modified-p) (save-buffer))
+;;   (let ((f1 (current-frame-configuration))
+;;         (retcode (shell-command (concat "~/bin/my-latex " action " " buffer-file-name))))
+;;     (if (= retcode 0) (set-frame-configuration f1))))
+
+;; (add-hook 'LaTeX-mode-hook (lambda ()
+;;       (define-key LaTeX-mode-map (kbd "C-x C-s") '(lambda () (interactive)))))
+      ;; (define-key LaTeX-mode-map (kbd "C-x-s") '(lambda () (interactive) (save-buffer)))
+      ;; (define-key LaTeX-mode-map (kbd "<S-f12>") '(lambda () (interactive) (my-latex "create")))))
+
+;; (add-hook 'latex-mode-hook
+;;    (lambda () (interactive)             
+;;      ;; (make-local-hook 'after-save-hook)
+;;      ;; (add-hook 'after-save-hook 'remind-parse-planner t t)
+;;      (add-hook 'after-save-hook (shell-command (concat "pdflatex ~/Dropbox/Projects/pracamgr/praca.tex")))))
+
+(add-hook 'python-mode-hook
+          (lambda () (define-key python-mode-map (kbd "C-c w") 'whitespace-cleanup)
+            (whitespace-mode 1)
+            ))
+
+;; (add-hook 'latex-mode-hook
+;;           (lambda () (interactive)
+;;             after-save-hook '
+;;             )
+
+;;           )
+
+(set-default 'tramp-default-proxies-alist (quote ((".*" "\\`root\\'" "/ssh:%h:"))))          
+(setq tramp-chunksize 500)
+
+;; (require 'gist)
+
+;; (require 'django-html-mode)
+;; (require 'django-mode)
+;; (add-to-list 'auto-mode-alist '("\\.html$" . django-html-mode))
