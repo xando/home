@@ -1,2 +1,10 @@
 ssh/id_rsa
 ssh/known_hosts
+ssh/known_hosts
+emacs/backups/
+emacs/eproject.lst
+emacs/ac-comphist.dat
+xchat2/scrollback/
+xchat2/servlist_.conf
+todo.org
+
