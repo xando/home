@@ -56,9 +56,14 @@ is a comment, uncomment."
 ;; Enable linenumering
 (global-linum-mode 1)
 
+;; Disable scrollbars
+(scroll-bar-mode nil)
+
 ;; Switch color theme
-(require 'color-theme)
-(color-theme-zenburn)
+;; (require 'color-theme)
+(color-theme-initialize)
+(color-theme-blippblopp)
+;; (color-theme-zenburn)
 
 
 ;; Turn off visible-bell
@@ -94,86 +99,24 @@ is a comment, uncomment."
 
 (make-directory autosave-dir t)
 
-(defun auto-save-file-name-p (filename)
-  (string-match "^#.*#$" (file-name-nondirectory filename)))
+;; Put autosave files (ie #foo#) and backup files (ie foo~) in ~/.emacs.d/.
+(custom-set-variables
+  '(auto-save-file-name-transforms '((".*" "~/.emacs.d/autosaves/\\1" t)))
+  '(backup-directory-alist '((".*" . "~/.emacs.d/backups/"))))
 
-(defun make-auto-save-file-name ()
-  (concat autosave-dir
-   (if buffer-file-name
-      (concat "#" (file-name-nondirectory buffer-file-name) "#")
-    (expand-file-name
-     (concat "#%" (buffer-name) "#")))))
+;; create the autosave dir if necessary, since emacs won't.
+(make-directory "~/.emacs.d/autosaves/" t)
+
 
 ;; Remove pretty anoying hook
 (remove-hook 'espresso-mode-hook 'esk-paredit-nonlisp)
 
-(custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(blink-cursor-mode nil)
- '(menu-bar-mode t)
- '(show-paren-mode t))
-
-(custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#3f3f3f" :foreground "#dcdccc" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 98 :width normal :foundry "unknown" :family "Inconsolata"))))
- '(custom-comment ((t (:inherit font-lock-doc :foreground "#6e8b3d"))))
- '(font-lock-comment ((t (:inherit zenburn-green :foreground "gray41")))))
-
-(add-hook 'html-mode 'turn-off-auto-fill)
-(add-hook 'latex-mode-hook (lambda ()
-                             (setq tex-main-file " /home/seba/Desktop/aghdpl/praca.tex")))
-;; (add-hook 'latex-mode-hook)
-;; (global-set-key (kbd "<f5>") (shell-command "pdflatex /home/seba/Desktop/aghdpl/praca.tex"))
-;; (add-hook 'flyspell-mode-hook
-;;  (lambda () (define-key flyspell-mode-map (kbd "C-x p") 'flyspell-correct-word-before-point)))
-
-;; (add-hook 'latex-mode-hook
-;;           (lambda () (define-key latex-mode-map (kbd "C-c C-c") (shell-command "touch ~/.test2"))))
-
-;; (add-hook 'latex-mode-hook
-;;           (lambda () (define-key latex-mode-map (kbd "C-c C-c") (shell-command "touch ~/.test2"))))
-
-;; (defun my-latex (action)
-;;   (interactive)
-;;   (if (buffer-modified-p) (save-buffer))
-;;   (let ((f1 (current-frame-configuration))
-;;         (retcode (shell-command (concat "~/bin/my-latex " action " " buffer-file-name))))
-;;     (if (= retcode 0) (set-frame-configuration f1))))
-
-;; (add-hook 'LaTeX-mode-hook (lambda ()
-;;       (define-key LaTeX-mode-map (kbd "C-x C-s") '(lambda () (interactive)))))
-      ;; (define-key LaTeX-mode-map (kbd "C-x-s") '(lambda () (interactive) (save-buffer)))
-      ;; (define-key LaTeX-mode-map (kbd "<S-f12>") '(lambda () (interactive) (my-latex "create")))))
-
-;; (add-hook 'latex-mode-hook
-;;    (lambda () (interactive)             
-;;      ;; (make-local-hook 'after-save-hook)
-;;      ;; (add-hook 'after-save-hook 'remind-parse-planner t t)
-;;      (add-hook 'after-save-hook (shell-command (concat "pdflatex ~/Dropbox/Projects/pracamgr/praca.tex")))))
 
 (add-hook 'python-mode-hook
           (lambda () (define-key python-mode-map (kbd "C-c w") 'whitespace-cleanup)
             (whitespace-mode 1)
             ))
 
-;; (add-hook 'latex-mode-hook
-;;           (lambda () (interactive)
-;;             after-save-hook '
-;;             )
-
-;;           )
-
 (set-default 'tramp-default-proxies-alist (quote ((".*" "\\`root\\'" "/ssh:%h:"))))          
 (setq tramp-chunksize 500)
 
-;; (require 'gist)
-
-;; (require 'django-html-mode)
-;; (require 'django-mode)
-;; (add-to-list 'auto-mode-alist '("\\.html$" . django-html-mode))
