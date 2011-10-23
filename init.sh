@@ -1,8 +1,9 @@
-./bash.sh
-./git.sh
+./bash.sh  
 ./emacs.sh  
+./fonts.sh  
+./git.sh  
+./init.sh  
 ./python.sh  
-./desktop.sh  
-./utils.sh
-./dropbox_link.sh  
-./dropbox.sh
+./ssh.sh  
+./utils.sh  
+./xchat.sh
