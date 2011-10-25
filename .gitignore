@@ -2,6 +2,7 @@ ssh/id_rsa
 ssh/known_hosts
 ssh/known_hosts
 emacs/backups/
+emacs/elpa/
 emacs/eproject.lst
 emacs/auto-save-list/
 emacs/autosaves/

@@ -1,3 +1,6 @@
+;; Follow symbolic links
+(setq vc-follow-symlinks t)
+
 ;; AngeFtp passive mode
 (defvar ange-ftp-hosts-no-pasv '("localhost")
   "*List of hosts that do not need PASV (e.g. hosts within your firewall).
@@ -40,9 +43,6 @@ is a comment, uncomment."
 ;; Get rid of the startup screen
 (setq inhibit-startup-message t)
 
-;; Follow symbolic links
-(setq vc-follow-symlinks t)
-
 ;; Full screen mode, set it by default (F11)
 ;; (defun switch-full-screen ()
 ;;   (interactive)
@@ -59,18 +59,14 @@ is a comment, uncomment."
 ;; Disable scrollbars
 (scroll-bar-mode nil)
 
-;; Switch color theme
-;; (require 'color-theme)
-(color-theme-initialize)
-(color-theme-blippblopp)
-;; (color-theme-zenburn)
-
-
 ;; Turn off visible-bell
 (setq visible-bell nil)
 
 ;; Wraping long lines off
 (longlines-mode -1)
+
+;; Global clipboard
+(custom-set-variables '(x-select-enable-clipboard t))
 
 ;; Longlines off
 (add-hook 'html-mode-hook
@@ -88,16 +84,13 @@ is a comment, uncomment."
 (global-set-key (kbd "C-c <up>") 'windmove-up)
 (global-set-key (kbd "C-c <down>") 'windmove-down)
 
+(windmove-default-keybindings) ;; Shift+direction
+
 ;; My private to do mode ToDo:
 (global-set-key (kbd "C-x t") (lambda ()
 				(interactive)
 				(find-file-other-window "~/Dropbox/home/todo.org")))
 
-;; Put autosave files (ie #foo#) in one place
-(defvar autosave-dir
- (concat "/tmp/emacs_autosaves/" (user-login-name) "/"))
-
-(make-directory autosave-dir t)
 
 ;; Put autosave files (ie #foo#) and backup files (ie foo~) in ~/.emacs.d/.
 (custom-set-variables
@@ -108,15 +101,32 @@ is a comment, uncomment."
 (make-directory "~/.emacs.d/autosaves/" t)
 
 
-;; Remove pretty anoying hook
-(remove-hook 'espresso-mode-hook 'esk-paredit-nonlisp)
+;; White characters handling
+(global-whitespace-mode t)
+(global-set-key (kbd "C-c w") 'whitespace-cleanup)
 
+(setq whitespace-style '(face trailing lines-tail)
+      whitespace-line-column 80)
 
 (add-hook 'python-mode-hook
-          (lambda () (define-key python-mode-map (kbd "C-c w") 'whitespace-cleanup)
-            (whitespace-mode 1)
+          (lambda ()
+	    (highlight-indentation nil)
             ))
 
-(set-default 'tramp-default-proxies-alist (quote ((".*" "\\`root\\'" "/ssh:%h:"))))          
+;; tramp fixes, don't know for sure for what
+(set-default 'tramp-default-proxies-alist (quote ((".*" "\\`root\\'" "/ssh:%h:"))))
 (setq tramp-chunksize 500)
 
+;; Fonts
+(set-face-attribute 'default nil :family "Inconsolata" :height 110)
+
+
+;; Color theme Zenburn
+(require 'color-theme-zenburn)
+(color-theme-zenburn)
+
+;; Zenburn is really cool, but ...
+(set-face-background 'hl-line "gray32")
+
+;; Magit status
+(global-set-key (kbd "C-c g") 'magit-status)
