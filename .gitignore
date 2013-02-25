@@ -1,13 +1,19 @@
-ssh/id_rsa
-ssh/known_hosts
-ssh/known_hosts
+ssh/*
+git/.gitconfig
+
 emacs/backups/
 emacs/elpa/
 emacs/eproject.lst
 emacs/auto-save-list/
 emacs/autosaves/
 emacs/ac-comphist.dat
+emacs/session*
+
 xchat2/scrollback/
 xchat2/servlist_.conf
+
 todo.org
+
+.zhistory
+.zsh_history
 

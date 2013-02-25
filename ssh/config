@@ -1,6 +1,0 @@
-Host 79.125.6.182
-    IdentityFile ~/Dropbox/Amazon/alpha.pem
-
-Host xando.org
-    IdentityFile ~/Dropbox/Amazon/alpha.pem
-

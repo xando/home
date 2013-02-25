@@ -13,8 +13,8 @@ HISTCONTROL=ignoredups:ignorespace
 shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=2000
-HISTFILESIZE=4000
+HISTSIZE=10000
+HISTFILESIZE=15000
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -102,6 +102,7 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
+alias o=xdg-open
 
 #Python virtualenv, and virtualenv wrapper settings
 VIRTUALENV_WRAPPER="/usr/local/bin/virtualenvwrapper.sh"
@@ -194,3 +195,45 @@ _pip_completion()
 }
 complete -o default -F _pip_completion pip
 # pip bash completion end
+
+_django_completion()
+{
+    COMPREPLY=( $( COMP_WORDS="${COMP_WORDS[*]}" \
+                   COMP_CWORD=$COMP_CWORD \
+	               DJANGO_AUTO_COMPLETE=1 $1 ) )
+}
+complete -F _django_completion -o default django-admin.py manage.py django-admin
+
+_python_django_completion()
+{
+    if [[ ${COMP_CWORD} -ge 2 ]]; then
+        PYTHON_EXE=$( basename -- ${COMP_WORDS[0]} )
+        echo $PYTHON_EXE | egrep "python([2-9]\.[0-9])?" >/dev/null 2>&1
+        if [[ $? == 0 ]]; then
+            PYTHON_SCRIPT=$( basename -- ${COMP_WORDS[1]} )
+            echo $PYTHON_SCRIPT | egrep "manage\.py|django-admin(\.py)?" >/dev/null 2>&1
+            if [[ $? == 0 ]]; then
+                COMPREPLY=( $( COMP_WORDS="${COMP_WORDS[*]:1}" \
+                               COMP_CWORD=$(( COMP_CWORD-1 )) \
+                               DJANGO_AUTO_COMPLETE=1 ${COMP_WORDS[*]} ) )
+            fi
+        fi
+    fi
+}
+
+# Support for multiple interpreters.
+unset pythons
+if command -v whereis &>/dev/null; then
+    python_interpreters=$(whereis python | cut -d " " -f 2-)
+    for python in $python_interpreters; do
+        pythons="${pythons} $(basename -- $python)"
+    done
+    pythons=$(echo $pythons | tr " " "\n" | sort -u | tr "\n" " ")
+else
+    pythons=python
+fi
+
+complete -F _python_django_completion -o default $pythons
+
+export GREP_OPTIONS="--color=always"
+export GREP_COLOR='1;31'

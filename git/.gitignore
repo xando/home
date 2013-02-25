@@ -1,0 +1,7 @@
+*~
+*#
+.rope*
+eproject.cfg
+private
+*.pem
+.virtualenv
