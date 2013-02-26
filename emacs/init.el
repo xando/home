@@ -20,16 +20,16 @@
 (setq vc-follow-symlinks t)
 
 ;; Fonts
-(set-face-attribute 'default nil :family "Inconsolata" :height 110)
+(set-face-attribute 'default nil :family "Inconsolata-g" :height 110)
 
 ;; Enable linenumering
 (global-linum-mode 1)
 
-;; Color theme Zenburn
+;; ;; Color theme Zenburn
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 (load-theme 'zenburn t)
 
-;; ;; Highlight line
+;; Highlight line
 (global-hl-line-mode 1)
 (set-face-background 'hl-line "#4A4A4A");; Nice color
 
@@ -133,21 +133,25 @@
 
 (global-set-key (kbd "C-c w") 'whitespace-cleanup)
 
+(require 'whitespace)
+
 (add-hook 'python-mode-hook
     (lambda () 
-      (setq whitespace-line-column 80
-            whitespace-style '(face tabs trailing lines-tail))
+      (font-lock-mode 1)
+      ;; (setq whitespace-line-column 80
+      ;;       whitespace-style '(face tabs trailing lines-tail))
       (whitespace-mode t)
+      ;; (font-lock-mode t)
 ))
 
-(add-hook 'js-mode-hook
-	  (lambda () 
-	    (setq whitespace-line-column 80
-		  whitespace-style '(face tabs trailing lines-tail))
-	    (whitespace-mode t)
-	    (setq indent-tabs-mode nil)
-	    (setq tab-width 4)
-	    ))
+;; (add-hook 'js-mode-hook
+;; 	  (lambda () 
+;; 	    (setq whitespace-line-column 80
+;; 		  whitespace-style '(face tabs trailing lines-tail))
+;; 	    (whitespace-mode t)
+;; 	    (setq indent-tabs-mode nil)
+;; 	    (setq tab-width 4)
+;; 	    ))
 
 (add-hook 'css-mode-hook
     (lambda () 
@@ -175,14 +179,14 @@
 	    ))
 
 
-;; (add-hook 'html-mode-hook
-;;     (lambda () (whitespace-mode t)
-;;     (setq tab-width 4)))
+;; ;; (add-hook 'html-mode-hook
+;; ;;     (lambda () (whitespace-mode t)
+;; ;;     (setq tab-width 4)))
 
-;; (add-hook 'emacs-lisp-mode-hook (lambda ()
-;;     (whitespace-mode t)
-;;     (setq tab-width 4)
-;; ))
+;; ;; (add-hook 'emacs-lisp-mode-hook (lambda ()
+;; ;;     (whitespace-mode t)
+;; ;;     (setq tab-width 4)
+;; ;; ))
 
 (defun vc-git-grep-simple(search-term)
  (interactive (list (read-from-minibuffer "Search for: "
@@ -197,7 +201,7 @@
 
 (global-set-key (kbd "M-g M-v") 'vc-git-grep-simple)
 
-;; (setq indent-line-function 'insert-tab)
+;; ;; (setq indent-line-function 'insert-tab)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -209,7 +213,6 @@
  '(blink-cursor-mode nil)
  '(custom-safe-themes (quote ("374e79a81930979e673b8e0869e135fb2450b18c6474ca145f104e0c6f003267" default)))
  '(hl-line-mode nil t)
- '(menu-bar-mode nil)
  '(scroll-bar-mode nil)
  '(show-paren-mode t)
  '(tool-bar-mode nil))
@@ -219,6 +222,5 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(region ((t (:background "gray32"))))
- ;; '(whitespace-trailing ((t (:background "dark orange"))) t)
-                )
+ '(default ((t (:family "Inconsolata-g" :foundry "unknown" :slant normal :weight normal :height 98 :width normal))))
+ '(region ((t (:background "gray32")))))

@@ -15,7 +15,7 @@ setopt hist_ignore_all_dups
 [[ -e /usr/local/bin/virtualenvwrapper.sh ]] && source /usr/local/bin/virtualenvwrapper.sh
 
 function emacs() {
-    setsid /usr/bin/emacs-snapshot-gtk -mm $* 2> /dev/null &
+    setsid /usr/bin/emacs24 -mm $* 2> /dev/null &
 }
 
 function ticket() {
